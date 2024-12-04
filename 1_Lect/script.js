@@ -47,6 +47,8 @@ console.log(sumTwo(...arr));
 
 
 
+
+
 /*
 const arr = [1, 5, 7, 9];
 console.log('Минимум: ' + Math.min(...arr));
