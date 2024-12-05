@@ -20,12 +20,14 @@ function createCounter() {
     let i = 0;
     return {
 
-        increment: () => { 
+        increment: () => {
             i++;
-            return i; },
-        decrement: () => { 
+            return i;
+        },
+        decrement: () => {
             i--;
-            return i; },
+            return i;
+        },
         getValue: () => { return i; }
     }
 }
@@ -45,10 +47,31 @@ console.log(counter.decrement());
 console.log(counter.getValue());
 
 
+// Задание №3 
+// Рекурсивный поиск элемента по классу 
+// Напишите рекурсивную функцию findElementByClass, которая принимает корневой элемент дерева DOM и название класса в качестве аргументов и возвращает первый найденный элемент с указанным классом в этом дереве.
+console.log('Задание №3');
+console.log('');
+
+function findElementByClass(rootEl, className) {
+    if (rootEl.className === className) {
+        return rootEl;
+    } else {
+        for (let i = 0; i < rootEl.children.length; i++) {
+            let res = findElementByClass(rootEl.children[i], className);
+            if (res) return res;
+        }
+    }
+
+}
+
+const rootEl = document.querySelector('div');
+// console.log(rootEl.classList[0]);
+// console.log(rootEl.children[0].classList[0]);
+//console.log(rootEl.className);
 
 
-
-
+console.log(findElementByClass(rootEl, 'product_img'));
 
 
 

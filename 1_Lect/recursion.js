@@ -18,3 +18,17 @@ console.log(factorial(1));
 console.log(factorial(2));
 console.log(factorial(3));
 console.log(factorial(4));
+
+// Пример с элементами DOM
+console.log('Пример с элементами DOM');
+
+// {
+//     tag: 'div',
+//     class: 'product',
+//         {
+//             tag: 'img',
+//             class: 'product_img',
+//             src: 'photo.img'
+//         }
+// }
+
