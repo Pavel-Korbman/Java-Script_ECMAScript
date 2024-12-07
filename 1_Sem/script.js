@@ -1,132 +1,79 @@
-// Задание №1 
-// Нахождение минимального числа в массиве 
-// Дан массив const arr = [1, 5, 7, 9].
-// Используя метод Math.min и оператор распространения (spread operator), найдите минимальное число в массиве. 
-// Решение должно быть написано в одной строке.
+// Задание 1
+// 1. Создайте функцию mergeArrays, которая принимает два массива и возвращает новый массив, содержащий все элементы из обоих массивов. Используйте spread оператор для объединения массивов. mergeArrays([1, 2, 3], [4, 5, 6]); // Ожидаемый результат: [1, 2, 3, 4, 5, 6] 
 
-const arr = [1, 5, 7, 9];
-console.log('min = ' + Math.min(...arr));
-
-// Задание №2 
-// Создание счетчика 
-// Напишите функцию createCounter, которая создает счетчик и возвращает объект с тремя методами: 
-// increment, decrement и getValue. 
-// Метод increment должен увеличивать значение счетчика на 1, 
-// метод decrement должен уменьшать значение счетчика на 1, 
-// а метод getValue должен возвращать текущее значение счетчика. 
-// Значение счетчика должно быть доступно только через методы объекта, а не напрямую.
-
-function createCounter() {
-    let i = 0;
-    return {
-
-        increment: () => {
-            i++;
-            return i;
-        },
-        decrement: () => {
-            i--;
-            return i;
-        },
-        getValue: () => { return i; }
-    }
+// 2. Создайте функцию removeDuplicates, которая принимает любое количество аргументов и возвращает новый массив, содержащий только уникальные значения. Используйте rest оператор для сбора всех аргументов в массив а затем filter для определения дубликатов. removeDuplicates(1, 2, 3, 2, 4, 1, 5); // Ожидаемый результат: [1, 2, 3, 4, 5]
+console.log('Задание 1');
+// 1
+mergeArrays = (arr1, arr2) => {
+    return [...arr1, ...arr2];
 }
-console.log('Пример2');
-const counter = createCounter();
-console.log(counter.increment()); // Ожидаемый вывод: 1 
-console.log(counter.increment()); // Ожидаемый вывод: 2 
-console.log(counter.decrement()); // Ожидаемый вывод: 1 
-console.log(counter.getValue()); // Ожидаемый вывод: 1
+console.log(mergeArrays([1, 2, 3], [4, 5, 6]));
 
-console.log('Пример2');
-console.log(counter.decrement());
-console.log(counter.getValue());
-console.log(counter.decrement());
-console.log(counter.getValue());
-console.log(counter.decrement());
-console.log(counter.getValue());
+const mergeArrays1 = (arr1, arr2) => [...arr1, ...arr2];
+
+console.log(mergeArrays1([1, 2, 3], [4, 5, 6]));
+
+// 2
+
+function removeDuplicates(...rest) {
+    return rest.filter((e, index) => index === rest.indexOf(e));
+}
+console.log(removeDuplicates(1, 2, 3, 2, 4, 1, 5));
+
+removeDuplicates1 = (...rest) => rest.filter((e, index) => index === rest.indexOf(e));
+
+console.log(removeDuplicates1(1, 2, 3, 2, 4, 1, 5));
 
 
-// Задание №3 
-// Рекурсивный поиск элемента по классу 
-// Напишите рекурсивную функцию findElementByClass, которая принимает корневой элемент дерева DOM и название класса в качестве аргументов и возвращает первый найденный элемент с указанным классом в этом дереве.
-console.log('Задание №3');
-console.log('');
+// 1. Напишите функцию getEvenNumbers, которая принимает массив чисел в качестве аргумента и возвращает новый массив, содержащий только четные числа. 
+// 2. Задача: Напишите функцию calculateAverage, которая принимает массив чисел в качестве аргумента и возвращает среднее значение этих чисел. 
+// 3. Напишите функцию capitalizeFirstLetter, которая принимает строку в качестве аргумента и возвращает новую строку, в которой первая буква каждого слова является заглавной.
+console.log('Задание 2 (Чистые функции)');
+console.log('Задание 2.1');
+const array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-function findElementByClass(rootEl, className) {
-    if (rootEl.className === className) {
-        return rootEl;
-    } else {
-        for (let i = 0; i < rootEl.children.length; i++) {
-            let res = findElementByClass(rootEl.children[i], className);
-            if (res) return res;
-        }
-    }
+// const getEvenNumbers = (array) => [...array].filter((e) => e % 2 !== 0);
+const getEvenNumbers = (array) => array.filter((e) => e % 2 !== 0);
 
+console.log(array);
+console.log(getEvenNumbers(array));
+
+console.log('Задание 2.2');
+
+const calculateAverage = (array) => {
+    res = 0;
+    array.forEach(e => { res += e; });
+    return res / array.length;
 }
 
-const rootEl = document.querySelector('div');
-// console.log(rootEl.classList[0]);
-// console.log(rootEl.children[0].classList[0]);
-//console.log(rootEl.className);
-
-
-console.log(findElementByClass(rootEl, 'product_img'));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-const arr = [1, 5, 7, 9];
-console.log('Минимум: ' + Math.min(...arr));
-
-function createCounter() {
-    let i = 1;
-    return {
-        increment: () => { return i*=10; },
-        decrement: () => { return i--; }
-    }
+const calculateAverage1 = (array) => {
+    sum = array.reduce((acc, item) => acc + item, 0);
+    return sum / array.length;
 }
 
-const countUp = createCounter().increment;
-const countDown = createCounter().decrement;
+const array1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+console.log(calculateAverage(array1));
+console.log(calculateAverage1(array1));
 
-// console.log(countUp());
-// console.log(countUp());
-// console.log(countUp());
+console.log('Задание 2.3');
 
-// console.log(countDown());
-// console.log(countDown());
-// console.log(countDown());
-
-for (let index = 0; index < 10; index++) {
-    console.log(countUp());
-    //console.log(countDown());
+function capitalizeFirstLetter(string) {
+    const works = string.split(' ');
+    const stringRes ='';
+    works.forEach(e => {
+        
+        console.log(res + e.charAt(0).toUpperCase() + e.slice(1));
+    });
+    console.log(works);
 }
-*/
+
+
+// function capitalizeFirstLetter(string) {
+//     return string.charAt(0).toUpperCase() + string.slice(1);
+// }
+const string = 'привет меня зовут павел';
+capitalizeFirstLetter(string);
 
 
 
-
+//console.log(string);
