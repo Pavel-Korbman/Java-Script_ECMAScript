@@ -24,7 +24,7 @@ removeDuplicates1 = (...rest) => rest.filter((e, index) => index === rest.indexO
 
 console.log(removeDuplicates1(1, 2, 3, 2, 4, 1, 5));
 
-
+// Задание 2
 // 1. Напишите функцию getEvenNumbers, которая принимает массив чисел в качестве аргумента и возвращает новый массив, содержащий только четные числа. 
 // 2. Задача: Напишите функцию calculateAverage, которая принимает массив чисел в качестве аргумента и возвращает среднее значение этих чисел. 
 // 3. Напишите функцию capitalizeFirstLetter, которая принимает строку в качестве аргумента и возвращает новую строку, в которой первая буква каждого слова является заглавной.
@@ -59,21 +59,89 @@ console.log('Задание 2.3');
 
 function capitalizeFirstLetter(string) {
     const works = string.split(' ');
-    const stringRes ='';
-    works.forEach(e => {
-        
-        console.log(res + e.charAt(0).toUpperCase() + e.slice(1));
-    });
-    console.log(works);
+    let stringRes = works[0].charAt(0).toUpperCase() + works[0].slice(1);
+    for (let i = 1; i < works.length; i++) {
+        stringRes += ' ' + works[i].charAt(0).toUpperCase() + works[i].slice(1);
+    }
+
+    return stringRes;
 }
 
 
-// function capitalizeFirstLetter(string) {
-//     return string.charAt(0).toUpperCase() + string.slice(1);
-// }
-const string = 'привет меня зовут павел';
-capitalizeFirstLetter(string);
+const string = 'привет меня зовут павел, как дела?';
+console.log(capitalizeFirstLetter(string));
 
+// Задание 3 (Замыкания) 
+// 1. Напишите функцию createCalculator, которая принимает начальное значение и возвращает объект с двумя методами: add и subtract. Метод add должен увеличивать значение на переданное число, а метод subtract должен уменьшать значение на переданное число. Значение должно быть доступно только через методы объекта, а не напрямую.
+console.log('Задание 3 (Чистые функции)');
 
+function createCalculator(i, j) {
+    let res = i;
+    return {
+        add: () => {
+            res += j;
+            return res;
+        },
+        subtract: () => {
+            res -= j;
+            return res;
+        }
 
-//console.log(string);
+    }
+}
+
+const calculator = createCalculator(10, 4);
+console.log(calculator.add());
+console.log(calculator.add());
+console.log(calculator.add());
+
+console.log(calculator.subtract());
+console.log(calculator.subtract());
+console.log(calculator.subtract());
+
+// Задание 4 (Лексический контекст) 
+// 1. Напишите функцию createGreeting, которая принимает имя пользователя и возвращает функцию, которая будет выводить приветствие с использованием этого имени. 
+
+// Пример использования: const greeting = createGreeting('John'); greeting(); // Ожидаемый результат: "Hello, John!"
+console.log('Задание 4');
+
+function createGreeting(youName) {
+    return () => {
+        console.log(`"Hello, ${youName}!"`);
+    }
+}
+
+const greeting = createGreeting('John');
+greeting(); // Ожидаемый результат: "Hello, John!"
+
+// Задание 5 
+// 1. Задача: Напишите функцию createPasswordChecker, которая принимает допустимую длину пароля в качестве аргумента и возвращает функцию для проверки введенного пароля. Возвращаемая функция должна принимать пароль и возвращать true, если его длина соответствует допустимой, и false в противном случае. 
+
+// // Пример использования: 
+// const isPasswordValid = createPasswordChecker(8); console.log(isPasswordValid('password')); // Ожидаемый результат: false 
+// console.log(isPasswordValid('secret')); // Ожидаемый результат: true
+console.log('Задание 5');
+
+function createPasswordChecker(maxLength) {
+    return function isPasswordValid(pass) {
+        return (pass.length < maxLength) ? true : false;
+    }
+}
+
+const isPasswordValid = createPasswordChecker(8);
+console.log(isPasswordValid('password')); // Ожидаемый результат: false 
+console.log(isPasswordValid('secret')); // Ожидаемый результат: true
+
+// Задание 6 
+// 1. Напишите рекурсивную функцию sumDigits, которая принимает положительное целое число в качестве аргумента и возвращает сумму его цифр. 
+// // Пример использования: 
+// console.log(sumDigits(123)); // Ожидаемый результат: 6 (1 + 2 + 3) 
+// console.log(sumDigits(456789)); // Ожидаемый результат: 39 (4 + 5 + 6 + 7 + 8 + 9)
+console.log('Задание 6');
+
+function sumDigits(num) {
+    const arr = String(num).split('').map(str => Number(str));
+    return Math.sum(arr);
+};
+
+console.log(sumDigits(123));
