@@ -1,247 +1,209 @@
-// Spread,rest operator
+// Объекты и их методы
 
-//  Spread (от английского расширить)-оператор расширения, или по другому распространения данных из массива в атомарные элементы.Т.е.мы можем взять массив, и вытащить все его элементы как отдельные переменные. Перед именем массива ставим ...  . 
-
-// !! Если в функцию с двумя аргументами передадим через Spread массив с 10 элементами то аргументам присвоятся первые 2 элемента
-
-const arr = [1, 4, 9, 0, -2, 4];
-
-console.log(Math.max(...arr)); // 9  Math.max принимает любое количество аргументов
-console.log(Math.min(...arr)); // -2
-
-// Rest operator 
-// Rest (от английского остальные, оставшиеся)-позволяет собрать оставшиеся - не вошедшие в аргументы функции элементы в массив. Позволяет не перечислять все аргументы функции, как отдельные переменные, а получить их в один массив. Для его использования необходимо в функции,  перечислить необходимые аргументы а все оставшиеся, которые мы хотим собрать в один массив записать как …<имя массива>. Часто пишут(arg1, arg2, ...rest).
-
-// function sumTwo(num1, num2, ...rest) {
-//     console.log(rest);
-//     return num1 + num2;
-// }                       // Записал в файл sum.js
-
-console.log(sumTwo(...arr));
+// Возьмем робот-пылесос, у него могут быть разные характеристики, такие как мощность двигателя, емкость аккумулятора, время работы без подзарядки, объем контейнера, также у него есть разные датчики, которые могут быть представлены булевыми переменными, например заполнен ли контейнер для мусора, или датчик препятствия. А также у робота-пылесоса есть методы, которые добавляют функциональности: 
+// самая главная- уборка комнаты, и дополнительные, отправиться на подзарядку или активировать дезинфекцию ультрафиолетовой лампой. Все это легко можно запрограммировать в виде объекта, давайте напишем такой объект:
 
 
-// Примеры:
+const Roomba = {
+    // Есть негласное правило называть объекты в алгоритмах с большой буквы. 
+    // Обычно сначала объявляют свойства объекта. 
+    model: "Romba-1",
+    power: 200,
+    batterySize: 2100,
+    boxSize: 0.5,
+    workTime: 45,
+    counterOfStarts: 0,
+    isFull: false,
+    isObstacle: false,
+    isUVLampOn: false,
 
-
-console.log('Пример 1');
-// Напишем не очень удобную, но показательную функцию, которая умеет принимать неограниченное число аргументов, и находить максимум среди них. Функция должна вызываться подобным образом: const maximum = findMax(4, 7, 10);
-
-function findMax() {
-    const values = arguments; // arguments- переменная доступная внутри каждой функции, которая содержит в себе все аргументы, переданные в функцию. Является псевдомассивом. 
-    let maxValue = -Infinity; // Так как arguments является псевдомассивом, мы не можем применять к нему новые методы массивов такие как forEach или reduce, поэтому будем итерировать по старинке. 
-    for (let index = 0; index < values.length; index++) {
-        if (values[index] > maxValue) maxValue = values[index];
-    }
-    return maxValue;
-};
-
-const group1PracticeTime = studentsGroup1PracticeTime.map((student) => student.practiceTime);
-console.log(group1PracticeTime);
-const group2PracticeTime = studentsGroup2PracticeTime.map((student) => student.practiceTime);
-console.log(group2PracticeTime);
-
-console.log('Максимальная длительность практики в 1 группе: ' + findMax(...group1PracticeTime));
-console.log('Максимальная длительность практики в 2 группе: ' + findMax(...group2PracticeTime));
-console.log('Максимальная длительность практики в 1 и 2 группах: ' + findMax(...group1PracticeTime, ...group2PracticeTime));
-
-const groupAllPracticeTime = [...group1PracticeTime, ...group2PracticeTime];
-console.log(groupAllPracticeTime);
-
-// Максимальное время практики первых трёх и остаток в консоль
-
-function findMax3(val1, val2, val3, ...rest) {
-    console.log('Максимальная длительность практики 3 студентов:' + Math.max(val1, val2, val3));
-    console.log(rest);
-}
-
-findMax3(...group1PracticeTime, ...group2PracticeTime);
-
-
-// Чистые функции,иммутабельность
-
-// Чистые функции-это функции которые при вызове с одними и теми же аргументами всегда возвращают одинаковое значение, при этом такие функции оперируют данными только из полученных аргументов и ни как не взаимодействуют с глобальными переменными.
-
-const student = {
-    firstName: "Ivan",
-    age: 21,
-};
-
-// Функция вычисления года рождения. Принимает текущий год, и вычисляет год рождения студента используя глобальные данные. Это функция с побочными эффектами. Она сильно зависит от глобальной переменной student.
-const getYearOfBirth = (currentYear) => {
-    return currentYear - student.age;
-}
-
-console.log(getYearOfBirth(2021)); // 2000 
-student.age = 25;
-console.log(getYearOfBirth(2021)); // 1996
-// Мы вызывали функцию дважды с одним и тем же параметром, но получили разный результат.
-
-// Чистая версия функции. Берет данные только из своих аргументов. 
-const getYearOfBirthPureVersion = (age, currentYear) => {
-    return age - currentYear;
-}
-
-// Более сложный пример с мутацией- изменением исходных объектов (побочными эффектами), но более частый на практике.
-
-// Изменение исходного объекта, может привести к нежелательным последствиям в остальном коде, которые порой очень сложно обнаружить.
-
-// Функция добавления нового ключа в объект. Принимает исходный объект, имя ключа, и значение, которое надо добавить. 
-
-const addField = (object, key, value) => {
-    object[key] = value;
-    return object;
-};
-
-console.log(student); // {firstName: 'Ivan', age: 25}
-addField(student, 'lastName', 'Belkin');
-console.log(student); // {firstName: 'Ivan', age: 25, lastName: 'Belkin'} - изменился исходный объект
-
-// Чистый вариант функции- нам нужно создать новый объект внутри функции для изменения и возврата.
-
-const addFieldPureVersion = (object, key, value) => {
-    return {
-        // возвращаем новый объект. 
-        ...object, // Воспользуемся оператором spread, для получения копии свойств исходного объекта. 
-        [key]: value // Добавим новое свойство. 
+    // После свойств объявляют его методы.     
+    startCleaning: function () {
+        this.counterOfStarts++;
+        console.log('I am cleaning... I have been started: ',
+            this.counterOfStarts, 'times.');
+    },
+    goCharge: function () {
+        console.log('I am going to charge...');
+    },
+    switchUVLamp: function () {
+        this.isUVLampOn = !this.isUVLampOn;
+        console.log(`UV lamp is ${this.isUVLampOn ? 'working' : 'not working'}.`);
     }
 };
 
-// 
-newStudent = addFieldPureVersion(student, 'secondName', 'Pavlovitch');
-console.log(student); // {firstName: 'Ivan', age: 25, lastName: 'Belkin'}
-console.log(newStudent); // {firstName: 'Ivan', age: 25, lastName: 'Belkin', secondName: 'Pavlovitch'}
+// Обращение к свойствам объекта. 
+console.log(Roomba.model); // "Romba-1" 
+console.log(Roomba.isFull); // false
+
+// Вызов методов объекта. 
+Roomba.startCleaning(); // 'I am cleaning... I have been started: 1 times.'
+Roomba.startCleaning(); // 'I am cleaning... I have been started: 2 times.'
+
+// Установим свойства объекта isUVLampOn в true, чтобы продемонстрировать результат работы метода switchUVLamp. 
+Roomba.isUVLampOn = true;
+
+// Результат вызова следующего метода зависит от значения, хранящегося в свойстве объекта, а также от того как этот метод был вызван (об этом поговорим чуть ниже). 
+Roomba.switchUVLamp(); // 'UV lamp is not working.' 
+Roomba.switchUVLamp(); // 'UV lamp is working.' 
+
+Roomba.goCharge(); // 'I am going to charge...'
 
 
-// Замыкания
+// this-это ключевое слово в языке JavaScript, 
+// которое позволяет обратиться к свойствам и методам объекта внутри его методов.А так же ключевое слово this доступно в любой функции и либо принимает значение объекта, который являлся контекстом при вызове функции, либо undefined.
 
-// Замыкание — это термин для механизма сохранения данных.n Мы замыкаем данные внутри функции таким образом, чтобы к этим данным можно было обратиться и изменить их внутри этой функции, но при этом они были не доступны снаружи. 
+// Работа с this 
+const checkThis = function () { console.log(this); }
 
-// На этом механизме работают кэширование вычислений функций - скрытие переменных в модулях (когда несколько скриптов, подключенных к одной странице могут иметь одинаковые переменные и мешать работе друг друга), создание хранилищ данных, защищённых от доступа из внешнего кода.
+checkThis(); // Window {0: global, window: Window, self: Window, document: document, name: "", location: Location, …}
 
-// Подход к созданию замыканий: 
-// ● создать функцию; 
-// ● внутри неё объявить переменные, которые мы хотим в ней замкнуть: 
-// спрятать, сохранить и использовать в дальнейшем; 
-// ● вернуть из неё другую функцию, которая уже выполняет какое-то конкретное действие и может использовать замкнутые (спрятанные) данные.
+const checkThisInObject = {
+    testProperty: true,
+    checkThis: function () {
+        console.log(this);
+    },
+};
 
-let count1 = 0;
-
-const countUp = (val) => {
-    return count1 + val;
-}
-console.log(countUp(5)); // 5
-
-const countUpClosure = () => {
-    const step = 3; // не видна вне функции
-    return count1 + step;
-}
-console.log(countUpClosure(5)); // 3
-// console.log(step); // Ошибка step is not defined
-
-// Пример со счётчиком
-console.log('Пример со счётчиком');
-
-const createCounter = () => {
-    let counter = 0;
-    return () => {
-        return ++counter;
-    }
-}
+checkThisInObject.checkThis(); // {testProperty: true, checkThis: ƒ}
 
 
-const counter1 = createCounter(); // Создаем счетчик.
-console.log(counter1());  // 1 
-console.log(counter1()); // 2  
-console.log(counter1()); // 3
+// Одалживание метода 
+// Что если мы хотим одолжить метод одного объекта и использовать его в другом объекте.Для этого давайте создадим еще один объект робота-пылесоса, который будет иметь улучшенные характеристики, но будет иметь такую же функциональность, как первая модель:
 
-//Создадим еще один счетчик. Каждый будет работать независимо. 
-const counter2 = createCounter();
-console.log(counter2()); // 1 
-console.log(counter2()); // 2
-console.log(counter1()); // 4
+// Объект робот-пылесос модель Tango. 
+const Tango = {
+    model: "Tango-1",
+    power: 300,
+    batterySize: 3200,
+    boxSize: 0.7,
+    workTime: 60,
+    counterOfStarts: 0,
+    isFull: false,
+    isObstacle: false,
+    isUVLampOn: false,
+    // Так как методы у новой модели такие же как и у старой, позаимствуем их у объекта Roomba. 
+    startCleaning: Roomba.startCleaning,
+    goCharge: Roomba.goCharge,
+    switchUVLamp: Roomba.switchUVLamp,
+};
 
-// Кэширование результатов в функции
-// Пример — создание функции с кэшированием результатов расчета. Бывают функции, которые делают сложные расчеты, поэтому имеет смысл сохранять результат такого расчета с привязкой к аргументам, с которыми была вызвана функция, чтобы если функция будет вызвана с такими аргументами повторно, был уже готовый результат. 
-// Возьмем простую функцию, которая вычисляет квадрат числа:
-console.log('Кэширование результатов');
+console.log(Tango.model); // "Tango-1" 
+console.log(Tango.isFull); // false
 
-const closureFunction = () => {
-    const cache = {};
-    return (x) => {
-        if (cache[x]) return cache[x];
-        const result = x * x;
-        cache[x] = result;
-        return result;
-    }
-}
+Tango.startCleaning(); // 'I am cleaning... I have been started: 1 times.'
 
-const cachedPow = closureFunction(); 
-console.log(cachedPow(2)); // 4 
-console.log(cachedPow(8)); // 64 
-console.log(cachedPow(2)); // 4 — тут функция возьмёт значение из кеша и не будет вычислять его заново.
+Tango.isUVLampOn = true;
 
+Tango.switchUVLamp(); // 'UV lamp is not working.' 
+Tango.goCharge(); // 'I am going to charge...'
 
-// Лексический контекст 
+const Samba = {
+    model: "Samba-1",
+    power: 250,
+    batterySize: 2500,
+    boxSize: 0.5,
+    workTime: 50,
+    counterOfStarts: 0,
+    isFull: false,
+    isObstacle: false,
+    isUVLampOn: false,
+};
+// На этот раз мы не будем создавать методы в объекте, мы постараемся их заимствовать непосредственно перед использованием.
 
-// Замыкания работают благодаря такому механизму, как лексическое окружение. Именно лексическое окружение (или лексический контекст) позволяет хранить все эти замкнутые данные и обращаться к ним при вызове функции,а так же позволяет функции иметь доступ к внешним данным. 
-// Лексический контекст или лексическое окружение — это механизм в JavaScript, который позволяет функции во время её вызова получать доступ к переменным, константам и всему, что ей нужно. 
-// Каждый раз при вызове функции создаётся что-то вроде объекта словаря, который записывает все значения переменных и констант внутри функции, а также тех переменных и констант вне функции, к которым она обращается. 
+// Обращение к свойствам объекта Samba. 
+console.log(Samba.model); // "Samba-1" 
+console.log(Samba.isFull); // false 
 
-// файл lexical.js
+// Одолжим методы из объекта Roomba. 
+Samba.startCleaning = Roomba.startCleaning;
+Samba.switchUVLamp = Roomba.switchUVLamp;
+Samba.goCharge = Roomba.goCharge;
 
-
-// Рекурсия
-
-// рекурсия- это объект определенной структуры, который может содержать в себе другой объект такой же структуры, который в свою очередь также может содержать объект такой же структуры и так далее.
-
-// файл recursion.js
-
-
-
-
-
-
-
-
-
-
-
-
+Samba.startCleaning(); // 'I am cleaning... I have been started: 1 times.'
+Samba.isUVLampOn = true;
+Samba.switchUVLamp(); // 'UV lamp is not working.' 
+Samba.goCharge(); // 'I am going to charge...'
 
 
+// Привязка контекста 
+// Продолжим работу с нашим роботом, и попробуем написать небольшую программу тестирования пылесоса, мы будем через небольшие интервалы отдавать пылесосу команды, и смотреть как они отработали:
+
+console.log(Roomba.model); // "Romba-1" 
+console.log(Roomba.isFull); // false
+
+// Вызов методов объекта. 
+setTimeout(Roomba.startCleaning, 1000);  // setTimeout() позволяет исполнить функцию через указанный промежуток времени.
+Roomba.isUVLampOn = true;
+setTimeout(Roomba.switchUVLamp, 2000);
+setTimeout(Roomba.goCharge, 3000);
+// I am cleaning... I have started: NaN times. 
+// UV lamp is working. 
+// I am going to charge...
+
+// Количество запусков пылесоса стало NaN, а ультрафиолетовая лампа не выключилась. Когда мы вызывали методы объекта напрямую, после его создания, функция вызывалась имея возможность получить доступ к объекту, но когда функция вызывается внутри метода setTimeout, то эта функция теряет доступ к своему объекту, и ключевое слово this в такой функции получает значение undefined. 
+// Вот тут и вступает в игру контекст вызова функции.Каждая функция вызывается в контексте некоторого объекта, если эта функция определена вне какого-то пользовательского объекта, то её контекстом будет глобальный объект (например window в браузере),а если определена впользовательском объекте,и вызвана в нём,то контекстом для неё будет этот пользовательский объект. Когда же мы вызываем функцию в отрыве от её объекта, как это происходит при вызове её из setTimeout,то её контекстом становится undefined. Так происходит потому, что мы одалживаем метод у объекта, и функция setTimeout копирует нашу функцию, для того чтобы вызвать её позже, но когда она вызывается доступа к объекту уже нет. Как мы можем это исправить? Один из вариантов обернуть метод в анонимную функцию, и вызвать в ней, тогда эта анонимная функция в своем лексическом окружении сохранит ссылку на объект, из которого наш метод будет вызываться:
+
+console.log(Roomba.model); // "Romba-1" 
+console.log(Roomba.isFull); // false
+
+// Вызов методов объекта. 
+setTimeout(function () { Roomba.startCleaning(); }, 1000);
+
+Roomba.isUVLampOn = true;
+
+setTimeout(function () { Roomba.switchUVLamp(); }, 2000);
+setTimeout(function () { Roomba.goCharge(); }, 3000);
+
+// I am cleaning... I have started: 1 times. 
+// UV lamp is not working. 
+// I am going to charge...
 
 
+//  Метод call 
+//  позволяет вызвать функцию и явно указать с каким объектом контекста её выполнить 
+//  (передать в качестве первого аргумента объект, который будет доступен в функции через ключевое слово this). 
+//  Давайте посмотрим на примере с пылесосом:
+
+console.log(Roomba.model); // "Roomba-1" 
+console.log(Roomba.isFull); // false
+
+// Вызов метода объекта через call с явной передачей объекта робота-пылесоса в качестве контекста. 
+Roomba.startCleaning.call(Roomba); // I am cleaning... I have started: 1 times.
+
+// Мы можем передать в call другой объект и увидеть что функция вызывается в контексте другого объекта:
+
+// Создадим фиктивный объект робота, который содержит только одно свойство, необходимое для работы функции и сразу же зададим ему первоначальное значение, отличное от того, которое задано у робота, для наглядности. 
+const notARobot = {
+    counterOfStarts: 10,
+};
+
+Roomba.startCleaning.call(notARobot); // I am cleaning... I have been started: 11 times.
 
 
-/*
-const arr = [1, 5, 7, 9];
-console.log('Минимум: ' + Math.min(...arr));
+// Подобно методу call можно использовать метод apply, 
+// который также позволяет вызвать функцию и передать необходимый контекст, с единственным отличием от call, метод apply принимает аргументы, которые необходимо передать в вызываемую функцию не списком через запятую, а в виде массива, что порой удобнее.
 
-function createCounter() {
-    let i = 1;
-    return {
-        increment: () => { return i*=10; },
-        decrement: () => { return i--; }
-    }
-}
+// Пример использования метода apply, для вызова функции с передачей в качестве контекста объекта notARobot и передачей в неё аргументов arg1, arg2, arg3. 
+const notARobot2 = {
+    counterOfStarts: 10,
+};
+// Roomba.startCleaning.apply(notARobot2, [arg1, arg2, arg3]); 
+Roomba.startCleaning.apply(notARobot2); // I am cleaning... I have been started: 11 times.
 
-const countUp = createCounter().increment;
-const countDown = createCounter().decrement;
+// bind
+// И последний метод для привязки контекста это bind (от английского bind связывать)-это самый часто используемый метод, т.к. позволяет привязать контекст к функции раз и на всегда,и в дальнейшем мы можем просто вызывать функции и быть уверены, что она будет вызвана в контексте нужного нам объекта. Именно он поможет нам, починить наш алгоритм тестирования робота с использованием setTimeout.
 
-// console.log(countUp());
-// console.log(countUp());
-// console.log(countUp());
+console.log(Roomba.model); // "Romba-1" 
+console.log(Roomba.isFull); // false
 
-// console.log(countDown());
-// console.log(countDown());
-// console.log(countDown());
+setTimeout(Roomba.startCleaning.bind(Roomba), 1000);
 
-for (let index = 0; index < 10; index++) {
-    console.log(countUp());
-    //console.log(countDown());
-}
-*/
+Roomba.isUVLampOn = true;
 
+setTimeout(Roomba.switchUVLamp.bind(Roomba), 2000); 
+setTimeout(Roomba.goCharge.bind(Roomba), 3000);
 
-
-
+// I am cleaning... I have been started: 1 times. 
+// UV lamp is not working. 
+// I am going to charge...
