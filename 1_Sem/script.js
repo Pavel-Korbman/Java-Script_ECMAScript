@@ -139,10 +139,14 @@ console.log(isPasswordValid('secret')); // Ожидаемый результат
 // console.log(sumDigits(456789)); // Ожидаемый результат: 39 (4 + 5 + 6 + 7 + 8 + 9)
 console.log('Задание 6');
 
+// function sumDigits(num) {
+//     let res =0;
+//     return (Math.floor(num / 10) === 0) ? res += num : (res = num % 10 + sumDigits(Math.floor(num / 10)));
+// };
+
 function sumDigits(num) {
-    let res =0;
-    return (Math.floor(num / 10) === 0) ? res += num : (res = num % 10 + sumDigits(Math.floor(num / 10)));
+    return (num < 10) ? num : num % 10 + sumDigits(Math.floor(num / 10));
 };
 
+console.log(sumDigits(123));
 console.log(sumDigits(456789));
-// console.log(Math.floor(1 / 10));
