@@ -140,8 +140,9 @@ console.log(isPasswordValid('secret')); // Ожидаемый результат
 console.log('Задание 6');
 
 function sumDigits(num) {
-    const arr = String(num).split('').map(str => Number(str));
-    return Math.sum(arr);
+    let res =0;
+    return (Math.floor(num / 10) === 0) ? res += num : (res = num % 10 + sumDigits(Math.floor(num / 10)));
 };
 
-console.log(sumDigits(123));
+console.log(sumDigits(456789));
+// console.log(Math.floor(1 / 10));
