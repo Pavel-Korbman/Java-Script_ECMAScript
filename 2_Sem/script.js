@@ -122,7 +122,7 @@ person1.introduce(); // My name is John and I'm 25 years old.
 // account1.withdraw(1500); // Вывод: Insufficient funds in account 1234567890
 
 class BankAccount {
-    bankName = 'Мой Банк';
+    static bankName = 'Мой Банк';
     accountNumber = '';
     balance = 0;
 
@@ -134,13 +134,13 @@ class BankAccount {
 
     deposit = (amount) => {
         this.balance += amount;
-        console.log(`${this.bankName}. Deposited ${amount} into account ${this.accountNumber}. New balance: ${this.balance}`);
+        console.log(`${BankAccount.bankName}. Deposited ${amount} into account ${this.accountNumber}. New balance: ${this.balance}`);
     }
 
     withdraw = (amount) => {
         if (amount <= this.balance) {
             this.balance -= amount;
-            console.log(`${this.bankName}. Withdrawn ${amount} into account ${this.accountNumber}. New balance: ${this.balance}`);
+            console.log(`${BankAccount.bankName}. Withdrawn ${amount} into account ${this.accountNumber}. New balance: ${this.balance}`);
         } else { console.log('Insufficient funds in account', this.accountNumber); }
     }
 }
