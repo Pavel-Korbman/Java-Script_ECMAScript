@@ -12,16 +12,18 @@
 // 4. Если ответ не успешен, отклоните промис с сообщением об ошибке.
 
 
-const getUserData = async (id) => {
-    const response = await fetch(`https://api.github.com/users`);
+const getUserData = async (idUser) => {   
+    const response = await fetch('https://api.github.com/users');
     if (response.status == 200) {
         const userData = await response.json();
-        return (userData[id - 1]) ? userData[id - 1] : 'Пользователь не найден';
+        const res = userData.find(el => el.id === idUser);
+        return (res) ? res : 'Пользователь не найден';
     } else {
         return `Error ${response.status}: ${response.statusText}`;
     }
 }
 console.log(getUserData(1));
+
 
 // Задание 2: "Отправка данных на сервер" 
 // Реализуйте функцию для отправки данных о пользователе на сервер: 
