@@ -34,18 +34,89 @@ const taskPlaner = (list) => {
 // 3. Зарегистрируйте обработчик события onreadystatechange, который будет вызываться при изменении состояния запроса. Проверьте, если успешно выполнен запрос и успешный статус ответа сервера, то выведите полученные данные в консоль с помощью console.log(xhr.responseText). 
 // 4. Откройте запрос с помощью xhr.open("GET", url, true). 5. Отправьте запрос на сервер.
 
+// loadData = (url) => {
+//     const xhr = new XMLHttpRequest(); 
+//     xhr.open('GET', url, true);
+//     xhr.send();
+//     xhr.onload = () => {
+//         if (xhr.status != 200) {
+//             console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+//         } else {
+//             console.log(`user: ${xhr.responseText}`);//             
+//         }
+//     }  
+
+// }
+
 loadData = (url) => {
-    const xhr = new XMLHttpRequest(); 
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.send();
-    xhr.onload = () => {
-        if (xhr.status != 200) {
-            console.log(`Error ${xhr.status}: ${xhr.statusText}`);
-        } else {
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
             console.log(`user: ${xhr.responseText}`);
-            return xhr.response;
+        } else if (xhr.readyState === 4) {
+            console.log(`Error ${xhr.status}: ${xhr.statusText}`);
         }
-    }  
+    }
 
 }
-loadData('https://api.github.com/users/octocat');
+
+// loadData('https://api.github.com/users/Pavel-Korbman');
+
+// Задание 4 
+// Переписать код с XMLHttpRequest на fetch.
+
+const loadData1 = async (url) => {
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            const userData = await response.text();
+            console.log(userData);
+        }
+    } catch (error) {
+        console.log(`Error ${response.status}: ${response.statusText}`);
+    }
+}
+
+//loadData1('https://api.github.com/users/Pavel-Korbman');
+
+const loadData2 = (url) => {
+    fetch(url)
+        .then(result => {
+            if (result.ok) {
+                return result.text();
+            }
+            throw new Error('Ошибка. Что то не так!')
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Есть ошибки - исправляй', error)
+        })
+
+}
+
+// loadData2('https://api.github.com/users/Pavel-Korbman');
+
+// Задание 5 
+// Вы разрабатываете простой веб-интерфейс для отображения списка пользователей с сервера и возможности сортировки этих пользователей по имени. 
+// У вас уже есть функциональность для получения списка пользователей с сервера и отображения их в виде списка на странице. 
+// Ваша задача - реализовать сортировку пользователей по имени и добавить кнопку, при нажатии на которую список пользователей будет автоматически сортироваться по имени. 
+
+// https://jsonplaceholder.typicode.com/users 
+
+const getUsers = async (url) => { 
+    const response = await fetch(url);    
+    if (response.status == 200) {
+        const users = await response.json();
+        return users;
+    } else {
+        return `Error ${response.status}: ${response.statusText}`;
+    }
+    // const users = await response.text();
+    // return users;
+}
+
+const userList = getUsers('https://api.github.com/users' );
